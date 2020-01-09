@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.river.persistence.UsersMapper">
+    <cache />
+
+    <select id="selectUser" resultType="com.river.domain.Users">
+        SELECT * FROM river_users where account=#{account}
+    </select>
+    <insert id="insertUser"  parameterType="com.river.domain.Users">
+        INSERT INTO river_users values (#{account}, #{username}, #{password}, #{status}, #{id})
+    </insert>
+    <update id="updateUser"  parameterType="com.river.domain.Users">
+        UPDATE river_users SET account=#{account}, username=#{username}, password=#{password}, status=#{status}, id=#{id}
+    </update>
+    <delete id="deleteUser" parameterType="java.lang.String">
+        DELETE FROM river_users WHERE account=#{account}
+    </delete>
+</mapper>
