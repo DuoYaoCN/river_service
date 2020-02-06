@@ -18,8 +18,12 @@ public class UserController {
         service.insert(new Users(account, username, password, status));
     }
 
+    @GetMapping("/get/{account}")
+    public Users getUser(@PathVariable String account){
+        return service.select(account);
+    }
     @GetMapping("/verify/{account}/{password}")
-    public Boolean verify(@PathVariable String account, @PathVariable String password){
+    public String verify(@PathVariable String account, @PathVariable String password){
         return service.verify(account, password);
     }
 

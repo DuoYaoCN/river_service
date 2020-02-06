@@ -3,7 +3,7 @@ package com.river.service;
 import com.river.domain.Users;
 
 public interface UsersService {
-    boolean verify(String account, String password);
+    String verify(String account, String password);
     Users select(String account);
     void insert(Users users);
     void update(Users users);

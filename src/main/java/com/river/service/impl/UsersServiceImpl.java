@@ -3,6 +3,8 @@ package com.river.service.impl;
 import com.river.domain.Users;
 import com.river.persistence.UsersMapper;
 import com.river.service.UsersService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.text.SimpleDateFormat;
@@ -11,28 +13,48 @@ import java.util.Date;
 
 @Service
 public class UsersServiceImpl implements UsersService {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     UsersMapper usersMapper;
 
+    /**
+     * 404 --- 不存在用户
+     * 400 --- 用户密码错误
+     * 200 --- 用户存在且密码正确
+     * @param account
+     * @param password
+     * @return
+     */
     @Override
-    public boolean verify(String account, String password) {
+    public String verify(String account, String password) {
+        Users users = usersMapper.selectUser(account);
+        if (users == null){
+            logger.warn("user does not exist");
+            return "404";
+        }
         String pass = null;
         try{
             pass = Base64.getMimeEncoder().encodeToString(password.getBytes("utf-8"));
         }catch (Exception e){
             e.printStackTrace();
         }
-
-        if(usersMapper.selectUser(account).getPassword().equals(pass)) {
-            return true;
+        if(users.getPassword().equals(pass)) {
+            logger.info("get user success");
+            return "200";
         }
-        else return false;
+        else return "400";
     }
 
     @Override
     public Users select(String account) {
-        return usersMapper.selectUser(account);
+        if (account.equals("") || account == null){
+            logger.warn("enter undefined account");
+            return null;
+        }
+        Users users = usersMapper.selectUser(account);
+        logger.info("func success");
+        return users == null ? null :usersMapper.selectUser(account);
     }
 
     @Override
