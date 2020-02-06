@@ -14,8 +14,8 @@ public class UserController {
     private UsersService service;
 
     @PutMapping("/insert/{account}/{username}/{password}/{status}")
-    public void insertUser(@PathVariable String account, @PathVariable String username, @PathVariable String password, @PathVariable String status){
-        service.insert(new Users(account, username, password, status));
+    public String insertUser(@PathVariable String account, @PathVariable String username, @PathVariable String password, @PathVariable String status){
+        return service.insert(new Users(account, username, password, status));
     }
 
     @GetMapping("/get/{account}")

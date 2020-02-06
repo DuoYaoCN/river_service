@@ -58,7 +58,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void insert(Users users) {
+    public String insert(Users users) {
         long random = System.currentTimeMillis();
         int r1 = Math.abs((int) random%1000);
         String r2 = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
@@ -70,8 +70,10 @@ public class UsersServiceImpl implements UsersService {
         }catch (Exception e){
             e.printStackTrace();
         }
+        logger.info("insert success");
         users.setPassword(password);
         usersMapper.insertUser(users);
+        return users.getId();
     }
 
     @Override
