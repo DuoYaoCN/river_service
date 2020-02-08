@@ -23,13 +23,13 @@ public class UserController {
         return service.select(account);
     }
     @GetMapping("/verify/{account}/{password}")
-    public String verify(@PathVariable String account, @PathVariable String password){
+    public String verify(@PathVariable String account, @PathVariable String password) {
         return service.verify(account, password);
     }
 
     @DeleteMapping("/delete/{account}")
-    public void delete(@PathVariable String account){
-        service.delete(account);
+    public String delete(@PathVariable String account){
+        return service.delete(account);
     }
 
     @PostMapping("/update/{account}/{username}/{password}/{status}")

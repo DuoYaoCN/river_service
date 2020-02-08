@@ -88,9 +88,21 @@ public class UsersServiceImpl implements UsersService {
         usersMapper.updateUser(users);
     }
 
+    /**
+     * 404 --- 不存在用户
+     * 200 --- 用户存在且密码正确
+     * @param account
+     * @return
+     */
     @Override
-    public void delete(String account) {
-        usersMapper.deleteUser(account);
+    public String delete(String account) {
+        Users users = usersMapper.selectUser(account);
+        if (users == null){
+            logger.warn("user does not exist");
+            return "404";
+        }
+        usersMapper.deleteUser(users.getAccount());
+        return "200";
     }
 
 }

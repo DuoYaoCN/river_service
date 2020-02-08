@@ -7,5 +7,5 @@ public interface UsersService {
     Users select(String account);
     String insert(Users users);
     void update(Users users);
-    void delete(String account);
+    String delete(String account);
 }
