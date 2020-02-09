@@ -3,6 +3,7 @@ package com.river.service.impl;
 import com.river.domain.Users;
 import com.river.persistence.UsersMapper;
 import com.river.service.UsersService;
+import org.omg.PortableInterceptor.SUCCESSFUL;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,7 +63,8 @@ public class UsersServiceImpl implements UsersService {
         long random = System.currentTimeMillis();
         int r1 = Math.abs((int) random%1000);
         String r2 = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
-        users.setId(r1+r2);
+        users.setId(users.getAccount()
+                +"_"+r1+r2);
         String password = null;
         try{
             password = Base64.getEncoder().encodeToString(users.getPassword().getBytes("utf-8"));
@@ -77,7 +79,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void update(Users users) {
+    public String update(Users users) {
         String pass = null;
         try{
             pass = Base64.getMimeEncoder().encodeToString(users.getPassword().getBytes("utf-8"));
@@ -86,6 +88,7 @@ public class UsersServiceImpl implements UsersService {
         }
         users.setPassword(pass);
         usersMapper.updateUser(users);
+        return "200";
     }
 
     /**

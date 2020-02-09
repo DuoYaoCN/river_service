@@ -22,6 +22,7 @@ public class UserController {
     public Users getUser(@PathVariable String account){
         return service.select(account);
     }
+
     @GetMapping("/verify/{account}/{password}")
     public String verify(@PathVariable String account, @PathVariable String password) {
         return service.verify(account, password);
@@ -33,7 +34,7 @@ public class UserController {
     }
 
     @PostMapping("/update/{account}/{username}/{password}/{status}")
-    public void update(@PathVariable String account, @PathVariable String username, @PathVariable String password, @PathVariable String status){
-        service.update(new Users(account, username, password, status));
+    public String update(@PathVariable String account, @PathVariable String username, @PathVariable String password, @PathVariable String status){
+        return service.update(new Users(account, username, password, status));
     }
 }
